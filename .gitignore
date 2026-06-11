@@ -1,0 +1,53 @@
+.vscode/
+.idea/
+.history/
+
+# Build output
+bin/
+obj/
+out/
+artifacts/
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Rider
+*.sln.iml
+/.idea/
+
+# Resharper
+_ReSharper*/
+*.DotSettings.user
+
+# NuGet
+# Ignore packages and generated nuget files
+.packages/
+*.nupkg
+project.lock.json
+project.fragment.lock.json
+
+# Publish
+publish/
+
+# Logs
+*.log
+
+# OS generated
+*.DS_Store
+*.swp
+*~
+
+# Local settings and secrets
+local.settings.json
+secrets.json
+appsettings.*.json
+
+# Dotnet tool/state
+/.dotnet/
+
+# Temporary files
+/tmp/
