@@ -10,8 +10,8 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/publish ./
 
-ENV ASPNETCORE_URLS="http://+:80"
 EXPOSE 80
 
-# Replace "Contoso.dll" with your project's DLL name if different
-ENTRYPOINT ["dotnet", "Contoso.dll"]
+# Use the PORT env variable provided by Render (or default to 80).
+# The shell form allows expanding ${PORT} at container start time.
+ENTRYPOINT ["bash","-lc","ASPNETCORE_URLS=http://*:${PORT:-80} dotnet Contoso.dll"]
