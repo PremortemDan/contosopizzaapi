@@ -1,5 +1,16 @@
 using Contoso.Services;
+using Microsoft.AspNetCore.HttpOverrides;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// If the `PORT` env var is provided (Render sets this), listen on it.
+// If not provided, don't call UseUrls so the app uses the default development ports
+// (avoids binding to privileged ports like 80 when running locally as non-root).
+var portEnv = Environment.GetEnvironmentVariable("PORT");
+if (!string.IsNullOrEmpty(portEnv))
+{
+    builder.WebHost.UseUrls($"http://*:{portEnv}");
+}
 
 // Add services to the container.
 
@@ -16,9 +27,14 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseHttpsRedirection();
 }
 
-app.UseHttpsRedirection();
+// When running behind a proxy (Render), respect the X-Forwarded-* headers
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
 
 app.UseAuthorization();
 
